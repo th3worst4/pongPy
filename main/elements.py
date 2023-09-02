@@ -4,9 +4,10 @@ import tkinter as tk
 scl = 1
 
 class player:
-    def __init__(self, num, canvas):
+    def __init__(self, num, canvas, vel):
         self.canvas = canvas
         self.xspeed = 0
+        self.vel = vel
 
         if num == 1:
             self.y = 25
@@ -18,12 +19,12 @@ class player:
     def move(self):
         self.coordinates = self.canvas.coords(self.image)
         if(self.coordinates[2]>=590):
-            if(self.xspeed == 5):
+            if(self.xspeed == self.vel):
                 self.xspeed = 0
             else:
                 self.canvas.move(self.image, self.xspeed, 0)
         elif(self.coordinates[0]<=10):
-            if(self.xspeed == -5):
+            if(self.xspeed == -self.vel):
                 self.xspeed = 0
             else:
                 self.canvas.move(self.image, self.xspeed, 0)
@@ -53,3 +54,8 @@ class ballGame:
             self.yspeed = self.yspeed*(-1)
 
         self.canvas.move(self.image, self.xspeed, self.yspeed)
+
+    def collision(self, p1, p2):
+        coordinates1 = p1.canvas.coords(p1.image)
+        coordinates2 = p2.canvas.coords(p2.image)
+

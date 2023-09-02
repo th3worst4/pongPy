@@ -4,8 +4,8 @@ import time
 
 from elements import player, ballGame
 
+vel = 5
 def onKeyPress(event):
-    vel = 5
     match event.keycode:
         case 65:
             if p1.xspeed == -5:
@@ -38,8 +38,8 @@ mainframe.pack()
 mainframe.grid(column=0, row=0, sticky=(tk.N, tk.W, tk.E, tk.S))
 mainframe.create_line(0, 300, 600, 300, fill='white')
 
-p1 = player(1, mainframe)
-p2 = player(2, mainframe)
+p1 = player(1, mainframe, vel)
+p2 = player(2, mainframe, vel)
 
 newBall = ballGame(mainframe)
 
@@ -47,6 +47,7 @@ newBall = ballGame(mainframe)
 
 while True:
     root.bind('<KeyPress>', onKeyPress)
+    newBall.collision(p1, p2)
     newBall.move()
     p1.move()
     p2.move()
