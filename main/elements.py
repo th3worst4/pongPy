@@ -5,7 +5,7 @@ scl = 1
 
 class player:
     def __init__(self, num, canvas):
-        self.x = 300
+        self.canvas = canvas
         self.xspeed = 0
 
         if num == 1:
@@ -13,12 +13,27 @@ class player:
         else:
             self.y = 575
 
-        self.canvas = canvas.create_rectangle(250, self.y+5, 350, self.y-5, fill='white', tags = (f"player {num}"))
-    def pos(self):
-        self.x = self.x + self.xspeed
+        self.image = self.canvas.create_rectangle(250, self.y+5, 350, self.y-5, fill='white', tags = (f"player {num}"))
+
+    def move(self):
+        self.coordinates = self.canvas.coords(self.image)
+        if(self.coordinates[2]>=590):
+            if(self.xspeed == 5):
+                self.xspeed = 0
+            else:
+                self.canvas.move(self.image, self.xspeed, 0)
+        elif(self.coordinates[0]<=10):
+            if(self.xspeed == -5):
+                self.xspeed = 0
+            else:
+                self.canvas.move(self.image, self.xspeed, 0)
+        else:
+            self.canvas.move(self.image, self.xspeed, 0)
+            
 
 class ballGame:
     def __init__(self, canvas):
+        self.canvas = canvas
         self.x = 300
         self.y = 300
         self.xspeed = rd.randint(-5,5)*scl
@@ -26,17 +41,15 @@ class ballGame:
         while self.yspeed == 0:
             self.yspeed = rd.randint(-5, 5)*scl
 
-        self.canvas = canvas.create_oval(285, 315, 315, 285, fill = 'gray', outline='gray')
+        self.image = canvas.create_oval(285, 315, 315, 285, fill = 'gray', outline='gray')
+ 
+   
+    def move(self):
+        coordinates = self.canvas.coords(self.image)
 
-    def pos(self):
-        self.x = self.x + self.xspeed
-        self.y = self.y + self.yspeed
+        if(coordinates[2]>=600 or coordinates[0]<0):
+            self.xspeed = self.xspeed*(-1)
+        if(coordinates[3]>=600 or coordinates[1]<0):
+            self.yspeed = self.yspeed*(-1)
 
-    def wallcolision(self):
-        if self.x == 0 or self.x == 600:
-            self.xspeed*=(-1)
-            self.yspeed = self.yspeed + rd.randint(0,1)*scl
-
-        if self.y == 0 or self.y == 600:
-            self.yspeed*=(-1)
-            self.xspeed = self.xspeed + rd.randint(0,1)*scl
+        self.canvas.move(self.image, self.xspeed, self.yspeed)
