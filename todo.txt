@@ -1,0 +1,3 @@
+-add score visible to players
+-add menu screen with info
+-add IA(if im crazy enough)
