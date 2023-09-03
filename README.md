@@ -12,10 +12,24 @@
     required libraries
         run on cmd "pip install -r requirements.txt"
 
+    other requirements
+        looks like tkinter cant import a font by path
+        so if you wanna see the score numbers correctly,
+        you must install "AtariSmall.ttf"
+        it is on "%YOURINSTALLEDPATH%\pongPy\font"
+
     to run the game
         assuming your cd is "%YOURINSTALLEDPATH%\pongPy"
         run on cmd "python - u "pongPy\main\main.py"
 
     to close the game
         you can simply click the "x" on top-right
-        or press Esc key at any time 
+        or press Esc key at any time
+
+    third party contents
+        the sounds present at "sounds" folder
+        and the font present at "font" folder
+        arent of my authoring
+        you can check links to the authors at
+        "font\credits.txt" and
+        "sounds\credits.txt"
