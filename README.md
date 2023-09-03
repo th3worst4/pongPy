@@ -22,6 +22,10 @@
         assuming your cd is "%YOURINSTALLEDPATH%\pongPy"
         run on cmd "python - u "pongPy\main\main.py"
 
+    to play the game
+        use A and D to control the upper plataform
+        use arrow keys to control the bottom plataform
+
     to close the game
         you can simply click the "x" on top-right
         or press Esc key at any time
