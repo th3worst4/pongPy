@@ -4,6 +4,9 @@ import time
 from elements import player, ballGame
 
 vel = 12
+score1 = None
+score2 = None
+
 def onKeyPress(event):
     match event.keycode:
         case 65:
@@ -35,6 +38,20 @@ p2 = player(2, mainframe, vel)
 
 newBall = ballGame(mainframe)
 
+def score(mainframe, p1, p2, score1, score2):
+    if(score1 != None or score2 != None):
+        mainframe.delete(score1)
+        mainframe.delete(score2)
+        score1 = mainframe.create_text(557, 125, text=p1.score, anchor="center", font=("Atari", 40), fill="white")
+        score2 = mainframe.create_text(557, 430, text=p2.score, anchor="center", font=("Atari", 40), fill="white")
+    else:
+        score1 = mainframe.create_text(557, 125, text=p1.score, anchor="center", font=("Atari", 40), fill="white")
+        score2 = mainframe.create_text(557, 430, text=p2.score, anchor="center", font=("Atari", 40), fill="white")
+
+    return (score1, score2)
+
+
+
 def ballDeath(newBall, mainframe, p1, p2):
     ballCoords = newBall.canvas.coords(newBall.image)
     if(ballCoords[3]>=615):
@@ -59,6 +76,7 @@ while True:
     root.bind('<KeyRelease>', releaseKey)
     
     newBall = ballDeath(newBall, mainframe, p1, p2)
+    (score1, score2) = score(mainframe, p1, p2, score1, score2)
     newBall.collision(p1, p2)
     
     newBall.move()

@@ -1,9 +1,7 @@
 # pongPy
- simple pong game made in Python3
- 
- don't know why sound have bugs, sometimes just after launch
- 
- probably related to the way im using to play them
- 
- improvements are needed
- 
+    simple pong game made in Python3
+
+    IT WILL NOT WORK ON OTHER OS THAN WINDOWS!!
+        thats because I had to use the winsound library to play asynchronous sfx
+
+
