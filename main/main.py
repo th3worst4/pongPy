@@ -4,8 +4,6 @@ import time
 from elements import player, ballGame, score
 
 vel = 12
-score1 = None
-score2 = None
 
 def onKeyPress(event):
     match event.keycode:
