@@ -38,13 +38,13 @@ newBall = ballGame(mainframe)
 def ballDeath(newBall, mainframe, p1, p2):
     ballCoords = newBall.canvas.coords(newBall.image)
     if(ballCoords[3]>=615):
-        p1.points += 1
+        p1.score += 1
         newBall.delete()
         newBall = ballGame(mainframe)
         time.sleep(1)
 
     elif(ballCoords[1]<-15):
-        p2.points += 1
+        p2.score += 1
         newBall.delete()
         newBall = ballGame(mainframe)
         time.sleep(1)
