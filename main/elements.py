@@ -1,10 +1,14 @@
 import random as rd
 import tkinter as tk
+from playsound import playsound
+import threading
 
-scl = 1
+scl = 2
 
 class player:
     def __init__(self, num, canvas, vel):
+        self.score = 0
+
         self.canvas = canvas
         self.xspeed = 0
         self.vel = vel
@@ -35,27 +39,42 @@ class player:
 class ballGame:
     def __init__(self, canvas):
         self.canvas = canvas
-        self.x = 300
-        self.y = 300
+        self.canvas.pack()
         self.xspeed = rd.randint(-5,5)*scl
         self.yspeed = rd.randint(-5,5)*scl
-        while self.yspeed == 0:
+        while abs(self.yspeed)<3:
             self.yspeed = rd.randint(-5, 5)*scl
 
         self.image = canvas.create_oval(285, 315, 315, 285, fill = 'gray', outline='gray')
+        self.canvas.pack()
  
    
     def move(self):
-        coordinates = self.canvas.coords(self.image)
+        ballCoords = self.canvas.coords(self.image)
 
-        if(coordinates[2]>=600 or coordinates[0]<0):
+        if(ballCoords[2]>=590 or ballCoords[0]<10):
             self.xspeed = self.xspeed*(-1)
-        if(coordinates[3]>=600 or coordinates[1]<0):
-            self.yspeed = self.yspeed*(-1)
+            threading.Thread(target=playsound, args=("..\\sounds\\4386__noisecollector__pongblipe3.wav",), daemon=True).start()
+        
 
         self.canvas.move(self.image, self.xspeed, self.yspeed)
 
     def collision(self, p1, p2):
-        coordinates1 = p1.canvas.coords(p1.image)
-        coordinates2 = p2.canvas.coords(p2.image)
+        coordinates =  [p1.canvas.coords(p1.image), p2.canvas.coords(p2.image)]
+        ballCoords = self.canvas.coords(self.image)
 
+        if(coordinates[0][0]<=ballCoords[2] and coordinates[0][2]>=ballCoords[0]):
+            if(coordinates[0][3]>=ballCoords[1]):
+                self.yspeed = self.yspeed*(-1)
+                self.xspeed = self.xspeed + p1.xspeed*0.25
+                threading.Thread(target=playsound, args=("..\\sounds\\4365__noisecollector__pongblipa5.wav",), daemon=True).start()
+        
+        if(coordinates[1][0]<=ballCoords[2] and coordinates[1][2]>=ballCoords[0]):
+            if(coordinates[1][1]<=ballCoords[3]):
+                self.yspeed = self.yspeed*(-1)
+                self.xspeed = self.xspeed + p2.xspeed*0.25 
+                threading.Thread(target=playsound, args=("..\\sounds\\4365__noisecollector__pongblipa5.wav",), daemon=True).start()
+
+    def delete(self):
+        self.canvas.delete(self.image)
+        threading.Thread(target=playsound, args=("..\\sounds\\Score - Pong (128 kbps).mp3",), daemon=True).start()

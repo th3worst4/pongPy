@@ -1,33 +1,25 @@
 import tkinter as tk
-from tkinter import ttk
 import time
 
 from elements import player, ballGame
 
-vel = 5
+vel = 12
 def onKeyPress(event):
     match event.keycode:
         case 65:
-            if p1.xspeed == -5:
-                pass
-            else:
-                p1.xspeed -= vel
+            p1.xspeed = -vel
         case 68:
-            if p1.xspeed == 5:
-                pass
-            else:
-                p1.xspeed += vel
+            p1.xspeed = vel
         case 37:
-            if p2.xspeed == -5:
-                pass
-            else:
-                p2.xspeed -= vel
+            p2.xspeed = -vel
         case 39:
-            if p2.xspeed == 5:
-                pass
-            else:
-                p2.xspeed += vel
+            p2.xspeed = vel
 
+def releaseKey(event):
+    if (event.keycode == 65 or event.keycode == 68):
+        p1.xspeed = 0
+    if (event.keycode == 37 or event.keycode == 39):
+        p2.xspeed = 0
 
 root = tk.Tk()
 root.title("Pong in Python3")
@@ -43,15 +35,38 @@ p2 = player(2, mainframe, vel)
 
 newBall = ballGame(mainframe)
 
+def ballDeath(newBall, mainframe, p1, p2):
+    ballCoords = newBall.canvas.coords(newBall.image)
+    if(ballCoords[3]>=615):
+        p1.points += 1
+        newBall.delete()
+        newBall = ballGame(mainframe)
+        time.sleep(1)
 
+    elif(ballCoords[1]<-15):
+        p2.points += 1
+        newBall.delete()
+        newBall = ballGame(mainframe)
+        time.sleep(1)
+    
+    return newBall
+
+def close(event):
+    root.destroy()
 
 while True:
     root.bind('<KeyPress>', onKeyPress)
+    root.bind('<KeyRelease>', releaseKey)
+    
+    newBall = ballDeath(newBall, mainframe, p1, p2)
     newBall.collision(p1, p2)
+    
     newBall.move()
+
     p1.move()
     p2.move()
-    root.update()
-    time.sleep(0.067)
     
-root.mainloop()
+    root.update()
+    root.bind('<Escape>', close)
+    time.sleep(0.05)
+    
