@@ -79,3 +79,15 @@ class ballGame:
     def delete(self):
         self.canvas.delete(self.image)
         winsound.PlaySound("sounds//3.wav", winsound.SND_ASYNC | winsound.SND_ALIAS )
+
+class score:
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.score = [canvas.create_text(557, 125, text=0, anchor="center", font=("Atari", 40), fill="white"),
+                      canvas.create_text(557, 430, text=0, anchor="center", font=("Atari", 40), fill="white")]
+
+    def refresh(self, canvas, p1, p2):
+        for i in self.score:
+            self.canvas.delete(i)
+        self.score = [canvas.create_text(557, 125, text=p1.score, anchor="center", font=("Atari", 40), fill="white"),
+                      canvas.create_text(557, 430, text=p2.score, anchor="center", font=("Atari", 40), fill="white")]

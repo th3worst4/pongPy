@@ -1,7 +1,7 @@
 import tkinter as tk
 import time
 
-from elements import player, ballGame
+from elements import player, ballGame, score
 
 vel = 12
 score1 = None
@@ -37,18 +37,7 @@ p1 = player(1, mainframe, vel)
 p2 = player(2, mainframe, vel)
 
 newBall = ballGame(mainframe)
-
-def score(mainframe, p1, p2, score1, score2):
-    if(score1 != None or score2 != None):
-        mainframe.delete(score1)
-        mainframe.delete(score2)
-        score1 = mainframe.create_text(557, 125, text=p1.score, anchor="center", font=("Atari", 40), fill="white")
-        score2 = mainframe.create_text(557, 430, text=p2.score, anchor="center", font=("Atari", 40), fill="white")
-    else:
-        score1 = mainframe.create_text(557, 125, text=p1.score, anchor="center", font=("Atari", 40), fill="white")
-        score2 = mainframe.create_text(557, 430, text=p2.score, anchor="center", font=("Atari", 40), fill="white")
-
-    return (score1, score2)
+playScore = score(mainframe)
 
 
 
@@ -76,7 +65,7 @@ while True:
     root.bind('<KeyRelease>', releaseKey)
     
     newBall = ballDeath(newBall, mainframe, p1, p2)
-    (score1, score2) = score(mainframe, p1, p2, score1, score2)
+    playScore.refresh(mainframe, p1, p2)
     newBall.collision(p1, p2)
     
     newBall.move()
