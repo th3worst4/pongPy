@@ -54,7 +54,7 @@ class ballGame:
 
         if(ballCoords[2]>=590 or ballCoords[0]<10):
             self.xspeed = self.xspeed*(-1)
-            threading.Thread(target=playsound, args=("..\\sounds\\4386__noisecollector__pongblipe3.wav",), daemon=True).start()
+            threading.Thread(target=playsound, args=("sounds/2.wav",), daemon=True).start()
         
 
         self.canvas.move(self.image, self.xspeed, self.yspeed)
@@ -65,16 +65,16 @@ class ballGame:
 
         if(coordinates[0][0]<=ballCoords[2] and coordinates[0][2]>=ballCoords[0]):
             if(coordinates[0][3]>=ballCoords[1]):
-                self.yspeed = self.yspeed*(-1)
+                self.yspeed = abs(self.yspeed)+rd.randint(0,1)*scl
                 self.xspeed = self.xspeed + p1.xspeed*0.25
-                threading.Thread(target=playsound, args=("..\\sounds\\4365__noisecollector__pongblipa5.wav",), daemon=True).start()
+                threading.Thread(target=playsound, args=("sounds/1.wav",), daemon=True).start()
         
         if(coordinates[1][0]<=ballCoords[2] and coordinates[1][2]>=ballCoords[0]):
             if(coordinates[1][1]<=ballCoords[3]):
-                self.yspeed = self.yspeed*(-1)
+                self.yspeed = (abs(self.yspeed)+rd.randint(0,1)*scl)*(-1)
                 self.xspeed = self.xspeed + p2.xspeed*0.25 
-                threading.Thread(target=playsound, args=("..\\sounds\\4365__noisecollector__pongblipa5.wav",), daemon=True).start()
+                threading.Thread(target=playsound, args=("sounds/1.wav",), daemon=True).start()
 
     def delete(self):
         self.canvas.delete(self.image)
-        threading.Thread(target=playsound, args=("..\\sounds\\Score - Pong (128 kbps).mp3",), daemon=True).start()
+        threading.Thread(target=playsound, args=("sounds/3.mp3",), daemon=True).start()
